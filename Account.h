@@ -30,7 +30,7 @@ public:
 	void setBalance(double _balance);
 
 	//Overloader
-	Account operator++();//post-fix
+	//Account operator++();//post-fix
 
 	//getter
 	int getWithdrawals()const;
