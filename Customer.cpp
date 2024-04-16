@@ -3,21 +3,6 @@
 using namespace std;
 
 //default
-bool validatePhone(string ph)
-{
-	bool valid = true;
-	if (ph.length() != 10)
-		return false;
-	for (int i = 0; i < ph.length(); i++)
-	{
-		if (ph[i] < '0' || ph[i] > '9')
-		{
-			return false;
-		}
-		break;
-	}
-	return valid;
-}
 Customer::Customer()
 {
 	fname = "";
@@ -62,6 +47,22 @@ void Customer::setEmail(string _email)
 {
 	email = _email;
 }
+bool validatePhone(string ph)
+{
+	bool valid = true;
+	if (ph.length() != 10)
+		return false;
+	for (int i = 0; i < ph.length(); i++)
+	{
+		if (ph[i] < '0' || ph[i] > '9')
+		{
+			return false;
+		}
+		break;
+	}
+	return valid;
+}
+
 bool Customer::isValidPhone(string _phone)
 {
 	if (validatePhone(_phone) == false)
