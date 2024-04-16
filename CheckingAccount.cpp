@@ -6,63 +6,55 @@ using namespace std;
 CheckingAccount::CheckingAccount()
 {
 	Account();
-	overDraftLimit = 0;
+	overDraftLimit = 200;
 }
 CheckingAccount::CheckingAccount(Account* accountCustomer, string _fname, string _lname, string _address, string _email, string _phone, int _ID, double _balance, double _overDraftLimit) : Account(_fname, _lname, _address, _email, _phone, _ID, _balance)
 {
-	overDraftLimit = _overDraftLimit;
+	overDraftLimit = 200;
 }
 void CheckingAccount::setOverDraftLimit(double _overDraftLimit)
 {
-	overDraftLimit = _overDraftLimit;
+	overDraftLimit = 200;
 }
 
 //over load
 void CheckingAccount::withdrawal(double _withdrawalAmount)
 {
-	if ((getBalance()) < 0)
+	int continueOverDraft;
+	int balance;
+	if (_withdrawalAmount > getBalance())
 	{
-		double temp;
-		if (_withdrawalAmount > overDraftLimit)
+		cout << "You do not have enough to withdraw... Do you want to overdraft withdraw?" << endl;
+		cout << "$20 service fee if you continue \nEnter 0 to coninue or any other number to exit ";
+		cin >> continueOverDraft;
+		if (continueOverDraft == 0)
 		{
-			cout << "You have tried to withdraw more than your over draft limit allows you to..." << endl;
-			cout << "Please try again!" << endl;
+			if ((getBalance() - _withdrawalAmount) <= overDraftLimit && _withdrawalAmount <= overDraftLimit)
+			{
+				balance = getBalance() - _withdrawalAmount -20;
+				setBalance(balance);
+				cout << "Withdrawal Complete... New balance: $" << getBalance();
+				withdrawals++;
+			}
+			else
+			{
+				cout << "You went over the overdraft limit, unable to withdraw" << endl;
+			}
 		}
 		else
 		{
-			temp = overDraftLimit - _withdrawalAmount;
-			setBalance((getBalance()) - 20);
+			cout << "Overdraft canceled" << endl;
 		}
-	}
-	else if (_withdrawalAmount < 0)
-	{
-		cout << "You have tried to withdraw a negative amount. You can not do this..." << endl;
-		cout << "Please try again!" << endl;
-	}
-	else if (((getBalance()) - _withdrawalAmount) > 0)
-	{
-		double temp;
-		temp = getBalance() - _withdrawalAmount;
-		setBalance(temp);
-		withdrawals++;
-		cout << "Your inputted amount has been withdrawn... " << endl;
-		cout << "Your new balance is $" << temp << endl;
-	}
-	else if (((Account::getBalance()) - _withdrawalAmount) < 0 && ((Account::getBalance()) - _withdrawalAmount) >= (0 - overDraftLimit))
-	{
-		double temp;
-		temp = (overDraftLimit)+(getBalance() - (_withdrawalAmount));
-		setOverDraftLimit(temp);
-		setBalance((getBalance() - 20));
-		withdrawals++;
-		cout << "Your inputted amount has been withdrawn but a $20 service fee has been charged to your account for overdraft protection." << endl;
 	}
 	else
 	{
-		cout << "You have tried to withdraw more than your over draft limit allows you to." << endl;
-		cout << "Please try again." << endl;
+		balance = getBalance() - _withdrawalAmount;
+		setBalance(balance);
+		cout << "Withdraw complete, New Balance: $" << getBalance();
 	}
 }
+
+
 void CheckingAccount::depositChecking()
 {
 	double depositAmmount = 0;
