@@ -7,7 +7,7 @@
 #include <ctime>
 #include <cstdlib>
 
-//#include "CUSTOMER.h"
+#include "Customer.h"
 #include "SavingAccount.h"
 #include "CheckingAccount.h"
 #include "Account.h"
@@ -17,19 +17,19 @@ void loadAccount();
 
 using namespace std;
 
-const string storedPassword = "test";
 const int MAX_ACCOUNT = 20;
 CheckingAccount chkAccounts[MAX_ACCOUNT];
 int numChkAccounts = 0;
 SavingAccount svAccounts[MAX_ACCOUNT];
 int numSvAccounts = 0;
+bool accountExist = false;
 
 int main()
 {
 	do
 	{
-		cout << "1. Create account 2. Open existing account";
 		int option;
+		cout << "1. Create account 2. Open existing account: ";
 		cin >> option;
 
 		switch (option)
@@ -47,7 +47,7 @@ int main()
 		default:
 			break;
 		}
-	} while (true);
+	} while (accountExist == false);
 
 
 }
@@ -60,8 +60,20 @@ void createAccount()
 
 	cout << "Enter First Name: ";
 	cin >> _fname;
+	while (_fname.length() < 2 || _fname.length() > 25)
+	{
+		cin.clear();
+		cout << "First Name is invalid. Please try again. (Legal names should be between 2 to 25 characters." << endl;
+		getline(cin, _fname);
+	}
 	cout << "Enter Last Name: ";
 	cin >> _lname;
+	while (_lname.length() < 2 || _lname.length() > 25)
+	{
+		cin.clear();
+		cout << "Last Name is invalid. Please try again. (Legal names should be between 2 to 25 characters.)" << endl;
+		getline(cin, _lname);
+	}
 	cout << "Enter Address: ";
 	cin.ignore();
 	getline(cin, _address);
@@ -69,8 +81,7 @@ void createAccount()
 	cin >> _email;
 	cout << "Enter Phone Number: ";
 	cin >> _phone;
-
-	cout << "Which account are you creating";
+	cout << "Which account are you creating" << endl;
 	cout << "1. Saving 2.Checking: ";
 	int acctOption;
 	cin >> acctOption;
@@ -87,7 +98,7 @@ void createAccount()
 	else if (acctOption == 2)
 	{
 		//checking
-		int randomNumber = rand() % 1000;  
+		int randomNumber = rand() % 1000;
 		_ID = randomNumber + 1000; //all checking accounts start with 1
 		cout << "Your ID Number is " << _ID << endl;
 		numChkAccounts++;
@@ -99,7 +110,7 @@ void createAccount()
 		cout << "Invalid ";
 	}
 
-	
+
 }
 
 void loadAccount()
@@ -108,37 +119,54 @@ void loadAccount()
 	int findID;
 	bool isChk = false;
 	int acctIndex = 0;
-	cout << "Enter ID Number: ";
-	cin >> findID;
-	if (findID < 4999)
-	{
-		//checking
-		for (int i = 0; i < numChkAccounts; i++)
-		{
-			if (chkAccounts[i].getID() == findID)
-			{
-				isChk = true;
-				acctIndex = i;
-			}
+	bool exit = false;
 
-		}
-	}
-	else
+	while (accountExist == false)
 	{
-		//saving
-		for (int i = 0; i < numSvAccounts; i++)
+		cout << "Enter ID Number: ";
+		cin >> findID;
+		if (findID < 4999)
 		{
-			if (svAccounts[i].getID() == findID)
+			//checking
+			for (int i = 0; i < numChkAccounts; i++)
 			{
-				isChk = false;
-				acctIndex = i;
+				if (chkAccounts[i].getID() == findID)
+				{
+					isChk = true;
+					acctIndex = i;
+					accountExist = true;
+				}
+			}
+			if (accountExist == false)
+			{
+				accountExist = false;
+				cout << "Invalid ID number" << endl;
+			}
+		}
+		else
+		{
+			//saving
+			for (int i = 0; i < numSvAccounts; i++)
+			{
+				if (svAccounts[i].getID() == findID)
+				{
+					isChk = false;
+					acctIndex = i;
+					accountExist = true;
+				}
+			}
+			if (accountExist == false)
+			{
+				accountExist = false;
+				cout << "Invalid ID number" << endl;
 			}
 		}
 	}
+
 	int input;
 	do
 	{
-		cout << "Please enter a number decision according to where you would like to me navigated within your savings menu: " << endl;
+		cout << "Please enter a number decision according to where you would like to me navigated: " << endl;
 		cout << "1. Deposit" << endl << "2. Withdraw" << endl << "3. View Account" << endl << "4. Exit" << endl;
 		cin >> input;
 		system("cls");
@@ -185,12 +213,12 @@ void loadAccount()
 		case 4:
 			cout << "You have chosen :EXIT:" << endl;
 			cout << "Your account has been locked, thank you for banking with us today!" << endl;
+			exit = true;
 			break;
 		default:
 			cout << "You have entered an invalid entry, please try again later..." << endl;
 			break;
 		}
 
-	} 
-	while (true);
+	} while (exit != true);
 }
