@@ -29,19 +29,8 @@ void Account::setAccount(string _fname, string _lname, string _address, string _
 
 void Account::setBalance(double _balance)
 {
-	if (isdigit(_balance) && _balance > 0)
-	{
-		balance = _balance;
-	}
-	else
-	{
-		while ((isalpha(_balance)) || (_balance <= 0))
-		{
-			cout << "You have entered an invalid character or number for balance. Please enter a new balance: ";
-			cin >> _balance;
-		}
-		balance = _balance;
-	}
+	balance = _balance;
+
 }
 //Overloader
 
@@ -68,7 +57,7 @@ void Account::withdrawal(double _withdrawalAmmount)
 		cout << "=========================================================================================================" << endl << endl;
 	}
 	//checks to make sure they have enough money 
-	else if ((balance - _withdrawalAmmount) < 0)
+	else if ((balance - _withdrawalAmmount) <= 0)
 	{
 		cout << "The withdrawal ammount was greater than your balance. Please try again with a lesser value..." << endl;
 		cout << "=========================================================================================================" << endl << endl;
