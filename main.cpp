@@ -217,7 +217,7 @@ void loadAccount()
 	do
 	{
 		cout << "Please enter a number decision according to where you would like to me navigated: " << endl;
-		cout << "1. Deposit" << endl << "2. Withdraw" << endl << "3. View Account" << endl << "4. Exit" << endl;
+		cout << "1. Deposit" << endl << "2. Withdraw" << endl << "3. View Account" << endl << "4. Pay Interest(only savings)" << endl << "5. Exit" << endl;
 		cin >> input;
 		system("cls");
 		switch (input)
@@ -261,6 +261,16 @@ void loadAccount()
 			}
 			break;
 		case 4:
+			if (isChk == true)
+			{
+				cout << "You can only pay interest in savings" << endl;
+			}
+			else
+			{
+				svAccounts[acctIndex].payInterest();
+			}
+			break;
+		case 5:
 			cout << "You have chosen :EXIT:" << endl;
 			cout << "Your account has been locked, thank you for banking with us today!" << endl;
 			exit = true;
