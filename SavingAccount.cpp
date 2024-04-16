@@ -10,7 +10,7 @@ SavingAccount::SavingAccount()
 	Account();
 	interestRate = 0.02;
 }
-SavingAccount::SavingAccount(Account* accountCustomer, string _fname, string _lname, string _address, string _email, string _phone, int _ID, double _balance, double _interestRate): Account(_fname, _lname, _address, _email, _phone, _ID, _balance)
+SavingAccount::SavingAccount(Account* accountCustomer, string _fname, string _lname, string _address, string _email, string _phone, int _ID, double _balance, double _interestRate) : Account(_fname, _lname, _address, _email, _phone, _ID, _balance)
 {
 	if (interestRate < 1 && interestRate >= 0) //Checks to see if interestRate is valid percentage 
 	{
@@ -40,10 +40,14 @@ void SavingAccount::depositSaving()
 		cout << "Please try again!" << endl;
 	}
 }
-double SavingAccount::payInterest()
+
+void SavingAccount::payInterest()
 {
-	double interest = interestRate * Account::getBalance();
-	return interest;
+	double balance = Account::getBalance();
+	double interest = interestRate * balance;
+	balance = balance - interest;
+	Account::setBalance(balance);
+	cout << "Thank you for paying. Your interest was " << interest << ". Your new balance is " << balance << endl;
 }
 void SavingAccount::printInfo()
 {
