@@ -19,19 +19,20 @@ using namespace std;
 
 const int MAX_ACCOUNT = 20;
 CheckingAccount chkAccounts[MAX_ACCOUNT];
-int numChkAccounts = 0;
+int numChkAccounts = 1;
 SavingAccount svAccounts[MAX_ACCOUNT];
 int numSvAccounts = 0;
 bool accountExist = false;
+bool exitProgram = false;
 
 int main()
 {
-	chkAccounts[19].setAccount("Alana", "Lucas", "3468 Shrewsbury Dr", "alucas1@jacksonville.edu", "9045984902", 1000, 5000);
+	chkAccounts[0].setAccount("Alana", "Lucas", "3468 Shrewsbury Dr", "alucas1@jacksonville.edu", "9045984902", 1000, 5000);
 
 	do
 	{
 		int option;
-		cout << "1. Create account 2. Open existing account: ";
+		cout << "1. Create account 2. Open existing account 3.Exit: ";
 		cin >> option;
 
 		switch (option)
@@ -48,10 +49,16 @@ int main()
 			loadAccount();
 			break;
 		}
+		case 3:
+		{
+			cout << "Thank you for banking with us.";
+			exitProgram = true;
+			break;
+		}
 		default:
 			break;
 		}
-	} while (accountExist == false);
+	} while (exitProgram == false);
 
 
 }
@@ -276,6 +283,8 @@ void loadAccount()
 			cout << "You have chosen :EXIT:" << endl;
 			cout << "Your account has been locked, thank you for banking with us today!" << endl;
 			exit = true;
+			system("pause");
+			system("cls");
 			break;
 		default:
 			cout << "You have entered an invalid entry, please try again later..." << endl;
