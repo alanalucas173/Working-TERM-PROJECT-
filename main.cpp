@@ -37,6 +37,8 @@ int main()
 		case 1:
 		{
 			createAccount();
+			system("pause");
+			system("cls");
 			break;
 		}
 		case 2:
