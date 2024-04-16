@@ -26,6 +26,8 @@ bool accountExist = false;
 
 int main()
 {
+	chkAccounts[19].setAccount("Alana", "Lucas", "3468 Shrewsbury Dr", "alucas1@jacksonville.edu", "9045984902", 1000, 5000);
+
 	do
 	{
 		int option;
@@ -83,35 +85,83 @@ void createAccount()
 	cin >> _email;
 	cout << "Enter Phone Number: ";
 	cin >> _phone;
-	cout << "Which account are you creating" << endl;
-	cout << "1. Saving 2.Checking: ";
-	int acctOption;
-	cin >> acctOption;
-	if (acctOption == 1)
-	{
-		//saving
-		int randomNumber = rand() % 1000;
-		_ID = randomNumber + 5000; //all saving accounts start with 5
-		cout << "Your ID Number is " << _ID << endl;
-		numSvAccounts++;
-		svAccounts[numSvAccounts - 1].setAccount(_fname, _lname, _address, _email, _phone, _ID, _balance);
-		cout << "Your acccount has successfully been created!" << endl;
-	}
-	else if (acctOption == 2)
-	{
-		//checking
-		int randomNumber = rand() % 1000;
-		_ID = randomNumber + 1000; //all checking accounts start with 1
-		cout << "Your ID Number is " << _ID << endl;
-		numChkAccounts++;
-		chkAccounts[numChkAccounts - 1].setAccount(_fname, _lname, _address, _email, _phone, _ID, _balance);
-		cout << "Your acccount has successfully been created!" << endl;
-	}
-	else
-	{
-		cout << "Invalid ";
-	}
 
+	cout << "Which account are you creating" << endl;
+	bool tempBool = true;
+	do
+	{
+		cout << "1. Saving 2.Checking: ";
+		int acctOption;
+		cin >> acctOption;
+		if (acctOption == 1)
+		{
+			//saving
+			int randomNumber = rand() % 1000;
+			_ID = randomNumber + 5000; //all saving accounts start with 5
+			cout << "Your ID Number is " << _ID << endl;
+			numSvAccounts++;
+			svAccounts[numSvAccounts - 1].setAccount(_fname, _lname, _address, _email, _phone, _ID, _balance);
+			cout << "Your acccount has successfully been created!" << endl;
+			system("Pause");
+			system("cls");
+			tempBool = false;
+		}
+		else if (acctOption == 2)
+		{
+			//checking
+			int randomNumber = rand() % 1000;
+			_ID = randomNumber + 1000; //all checking accounts start with 1
+			cout << "Your ID Number is " << _ID << endl;
+			numChkAccounts++;
+			chkAccounts[numChkAccounts - 1].setAccount(_fname, _lname, _address, _email, _phone, _ID, _balance);
+			int temp = 0; bool tORf = true;
+			while (tORf == true)
+			{
+				cout << "The default overdraft limit is $200. Would you like to change it? (1 for Yes or 2 for No)" << endl;
+				cin >> temp;
+				if (temp == 1)
+				{
+					double newOverdraft = 0;
+					cout << "Please enter how much you would like to set your overdraft limit to be. (Min: $0| Max: $500): $";
+					cin >> newOverdraft;
+					while (cin.fail())
+					{
+						cin.clear();
+						cin.ignore();
+						cout << "Not valid, Try Again :";
+						cin >> newOverdraft;
+					}
+					if (newOverdraft >= 0 && newOverdraft <= 500)
+					{
+						chkAccounts[numChkAccounts - 1].setOverDraftLimit(newOverdraft);
+						tORf = false;
+					}
+					else
+					{
+						cout << "Invalid overdraft limit. Please try again" << endl;
+					}
+				}
+				else if (temp == 2)
+				{
+					cout << "You have selected to keep our $200 overdraft limit!" << endl;
+					tORf = false;
+				}
+				else
+				{
+					cout << "You have selected an invalid option. Please try again..." << endl;
+				}
+			}
+			cout << "Your acccount has successfully been created!" << endl;
+			system("Pause");
+			system("cls");
+			tempBool = false;
+		}
+		else
+		{
+			cout << "Invalid! Press any key to try again..." << endl;
+			system("Pause");
+		}
+	} while (tempBool == true);
 
 }
 
@@ -169,7 +219,7 @@ void loadAccount()
 	do
 	{
 		cout << "Please enter a number decision according to where you would like to me navigated: " << endl;
-		cout << "1. Deposit" << endl << "2. Withdraw" << endl << "3. View Account" << endl << "4. Exit" << endl;
+		cout << "1. Deposit" << endl << "2. Withdraw" << endl << "3. View Account" << endl << "4. Pay Interest(only savings)" << endl << "5. Exit" << endl;
 		cin >> input;
 		system("cls");
 		switch (input)
@@ -213,6 +263,16 @@ void loadAccount()
 			}
 			break;
 		case 4:
+			if (isChk == true)
+			{
+				cout << "You can only pay interest in savings" << endl;
+			}
+			else
+			{
+				svAccounts[acctIndex].payInterest();
+			}
+			break;
+		case 5:
 			cout << "You have chosen :EXIT:" << endl;
 			cout << "Your account has been locked, thank you for banking with us today!" << endl;
 			exit = true;
