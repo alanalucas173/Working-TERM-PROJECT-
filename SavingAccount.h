@@ -25,7 +25,7 @@ public:
 
 	//Functions
 	void depositSaving();
-	double payInterest();
+	void payInterest();
 	void printInfo();
 };
 
