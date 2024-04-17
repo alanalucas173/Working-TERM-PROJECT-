@@ -19,7 +19,7 @@ using namespace std;
 
 const int MAX_ACCOUNT = 20;
 CheckingAccount chkAccounts[MAX_ACCOUNT];
-int numChkAccounts = 1;
+int numChkAccounts = 2;
 SavingAccount svAccounts[MAX_ACCOUNT];
 int numSvAccounts = 0;
 bool accountExist = false;
@@ -28,20 +28,25 @@ bool exitProgram = false;
 int main()
 {
 	chkAccounts[0].setAccount("Alana", "Lucas", "3468 Shrewsbury Dr", "alucas1@jacksonville.edu", "9045984902", 1000, 5000);
+	chkAccounts[1].setAccount("Maximus", "Adversalo", "736 Killebrew Way", "madvers@jacksonville.edu", "9165450572", 1000, 5000);
 
 	do
 	{
 		int option;
 		cout << "1. Create account 2. Open existing account 3.Exit: ";
 		cin >> option;
-
+		while (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Not valid, Try Again :";
+			cin >> option;
+		}
 		switch (option)
 		{
 		case 1:
 		{
 			createAccount();
-			system("pause");
-			system("cls");
 			break;
 		}
 		case 2:
@@ -88,11 +93,33 @@ void createAccount()
 	cout << "Enter Address: ";
 	cin.ignore();
 	getline(cin, _address);
+		while (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Not valid, Try Again :";
+			getline(cin,_address);
+		}
 	cout << "Enter Email: ";
 	cin >> _email;
+		while (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Not valid, Try Again :";
+			cin >> _email;
+		}
 	cout << "Enter Phone Number: ";
 	cin >> _phone;
-
+		while (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Not valid, Try Again :";
+			cin >> _phone;
+		}
+	system("pause");
+	system("cls");
 	cout << "Which account are you creating" << endl;
 	bool tempBool = true;
 	do
@@ -184,6 +211,14 @@ void loadAccount()
 	{
 		cout << "Enter ID Number: ";
 		cin >> findID;
+		while (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Not valid, Try Again :";
+			cin >> findID;
+		}
+		
 		if (findID < 4999)
 		{
 			//checking
@@ -221,13 +256,21 @@ void loadAccount()
 			}
 		}
 	}
-
+	system("pause");
+	system("cls");
 	int input;
 	do
 	{
 		cout << "Please enter a number decision according to where you would like to me navigated: " << endl;
 		cout << "1. Deposit" << endl << "2. Withdraw" << endl << "3. View Account" << endl << "4. Pay Interest(only savings)" << endl << "5. Exit" << endl;
 		cin >> input;
+		while (cin.fail())
+		{
+			cin.clear();
+			cin.ignore();
+			cout << "Not valid, Try Again :";
+			cin >> input;
+		}
 		system("cls");
 		switch (input)
 		{
@@ -236,6 +279,7 @@ void loadAccount()
 			cout << "You have chosen :DEPOSIT:" << endl;
 			cout << "Please enter how much you would like to deposit: $";
 			cin >> depositAmmount;
+			
 			if (isChk == false)
 			{
 				svAccounts[acctIndex].deposit(depositAmmount);
@@ -250,6 +294,13 @@ void loadAccount()
 			cout << "You have chosen :WITHDRAW:" << endl;
 			cout << "Please enter how much you would like to WITHDRAW: $";
 			cin >> withdrawAmmount;
+			while (cin.fail())
+			{
+				cin.clear();
+				cin.ignore();
+				cout << "Not valid, Try Again :";
+				cin >> withdrawAmmount;
+			}
 			if (isChk == false)
 			{
 				svAccounts[acctIndex].withdrawal(withdrawAmmount);
@@ -263,10 +314,14 @@ void loadAccount()
 			if (isChk == false)
 			{
 				svAccounts[acctIndex].printInfo();
+				system("pause");
+				system("cls");
 			}
 			else
 			{
 				chkAccounts[acctIndex].printInfo();
+				system("pause");
+				system("cls");
 			}
 			break;
 		case 4:
@@ -277,6 +332,8 @@ void loadAccount()
 			else
 			{
 				svAccounts[acctIndex].payInterest();
+				system("pause");
+				system("cls");
 			}
 			break;
 		case 5:
